@@ -18,7 +18,7 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-        cache: 'pip'
+        # 💡 SENIOR FIX: Removed 'cache' hook to prevent early file-matching race errors
 
     - name: Install System Architecture Dependencies
       run: |
@@ -27,12 +27,11 @@ jobs:
 
     - name: Execute Strict Python Syntax and Compile Check
       run: |
-        # This compiles the python file to check for IndentationErrors, SyntaxErrors, etc.
-        # without running the infinite interactive input loop.
+        # Validates file structures against IndentationErrors or SyntaxErrors
         python -m py_compile advanced_orchestrator.py
 
     - name: Verify Environment Configuration Stability
       run: |
-        # Ensures critical file matrices exist before system execution paths trigger
+        # Verifies core file deployment boundaries
         test -f advanced_orchestrator.py
         test -f ARCHITECTURE.md
